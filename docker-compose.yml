@@ -1,0 +1,10 @@
+version: '3.2'
+
+services:
+  app:
+    container_name: rc-server-monitoring-frontend
+    build: .
+    volumes:
+      - .:/var/www/site
+    ports:
+      - "8080:80"
