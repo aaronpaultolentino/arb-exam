@@ -50,7 +50,10 @@
             ping: function (){
                 axios.get('/api/v1/ping').then(function (res) {
                     this.showPings();
-                }.bind(this));
+                }.bind(this))
+                .catch(function (error) {
+                    alert('Something went wrong. This may be a connection issue to a server. Please contact your administrator');
+                });;
             }
         },
         created: function () {

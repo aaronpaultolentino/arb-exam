@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  docker-bridge-local:
+    external:
+      name: docker-bridge-local
+
+services:
+  db:
+    container_name: mysql57-server
+    volumes:
+        - './docker-compose/mysql:/var/lib/mysql'
+        - './docker-compose/mysql-init:/docker-entrypoint-initdb.d'
+    environment:
+        - MYSQL_ROOT_PASSWORD=password
+    image: mysql:5.7
+    networks:
+      docker-bridge-local:
+        ipv4_address: 192.168.155.12
+
+  nginx:
+    image: nginx:alpine
+    container_name: dev-exam-backend-nginx
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      docker-bridge-local:
+        ipv4_address: 192.168.155.11
+  app:
+    container_name: dev-exam-backend-php
+    build: 
+      args:
+       user: aaron
+       uid: 1000
+      context: ./
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    external_links:
+      - mysql57-server
+    networks:
+     - docker-bridge-local
