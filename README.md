@@ -1,8 +1,8 @@
 # Instruction
 
-[] Create .env and supply the correct database connection
-[] Run "php artisan migrate --seed" to migrate database tables
-[] Run "php artisan serve" to run the app
+* Create .env and supply the correct database connection
+* Run "php artisan migrate --seed" to migrate database tables
+* Run "php artisan serve" to run the app
 
 
 ### Default user access
