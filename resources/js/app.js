@@ -60,6 +60,8 @@ Vue.component('role-modal-component', require('./components/RoleModalComponent.v
 Vue.component('expense-modal-component', require('./components/ExpenseModalComponent.vue').default);
 Vue.component('expense-category-modal-component', require('./components/ExpenseCategoryModalComponent.vue').default);
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
+Vue.component('chart-component', require('./components/Chart.vue').default);
+Vue.component('dashboard-chart-component', require('./components/DashboardChart.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

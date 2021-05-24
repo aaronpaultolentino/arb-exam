@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'permission:access_expense', 'namespace' => 'ExpenseManagement'], function () {
         Route::get('/expenses', 'ExpensesController@index')->name('expenses');
+        Route::get('/expenses/chart', 'ExpensesController@chart')->name('expenses.chart');
         Route::get('/expenses/all', 'ExpensesController@all')->name('expenses.all');
         Route::get('/expenses/{id}', 'ExpensesController@find')->name('expenses.find');
         Route::put('/expenses/{id}', 'ExpensesController@update')->name('expenses.update');

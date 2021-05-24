@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\ExpenseManagement;
 
+use DB;
+use App\Role;
 use App\Expense;
 use App\ExpenseCategory;
 use Illuminate\Http\Request;
@@ -23,7 +25,11 @@ class ExpensesController extends Controller
 
     public function all()
     {
-        return Expense::with('expense_category')->get();
+        if(auth()->user()->role_id == ROLE::ADMIN_ROLE_ID){
+            return Expense::with('expense_category')->get();
+        }else{
+            return Expense::with('expense_category')->where('created_by', auth()->user()->id)->get();
+        }
     }
 
     /**
@@ -69,5 +75,38 @@ class ExpensesController extends Controller
         $user = Expense::findOrFail($id);
 
         $user->delete();
+    }
+
+    public function chart()
+    {
+        $expenseCategories = ExpenseCategory::addSelect('id', 'name', DB::raw('(Select COALESCE(SUM(amount), 0) FROM expenses WHERE expenses.expense_category_id = expense_categories.id) as sum_amount'))->get();
+        $availableColor = [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+        ];
+        $backgroundColor = [];
+        $borderColor = [];
+
+        foreach ($expenseCategories as $key => $expenseCategory) {
+            # code...
+            $color = rand(0,5);
+            $backgroundColor[] = $availableColor[$color];
+            $borderColor[] = $availableColor[$color];
+        }
+        
+        return [
+            'labels' => $expenseCategories->pluck('name'),
+            'datasets' => [[
+                'label' => 'Expense per category',
+                'data' => $expenseCategories->pluck('sum_amount'),
+                'backgroundColor' => $backgroundColor,
+                'borderColor' => $borderColor,
+                'borderWidth' => 1
+            ]]
+        ];
     }
 }

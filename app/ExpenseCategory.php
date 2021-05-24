@@ -12,4 +12,12 @@ class ExpenseCategory extends Model
 		'description',
 		'created_by'
     ];
+
+    /**
+     * @return mixed
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
 }

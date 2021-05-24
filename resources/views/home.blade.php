@@ -8,13 +8,7 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <datatable-component></datatable-component>
+                    <dashboard-chart-component></dashboard-chart-component>
                 </div>
             </div>
         </div>
