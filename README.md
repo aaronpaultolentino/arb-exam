@@ -8,9 +8,9 @@
 ### Default user access
 
 #### Admin User
-[] username: admin@arb.com 
-[] password: 123123123
+* username: admin@arb.com 
+* password: 123123123
 
 #### Normal User
-[] username: user@arb.com 
-[] password: 123123123 
+* username: user@arb.com 
+* password: 123123123 
