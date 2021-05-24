@@ -1,8 +1,5 @@
 <template>
     <div>
-        <div class="mb-5">
-            <button v-on:click="ping" class="btn btn-primary">PING</button>
-        </div>
         <div class="col-xs-12 table-responsive">
             <custom-datatable :columns="columns" :data="rows" :filter="filter" :per-page="perPage"></custom-datatable>
             <custom-datatable-pager v-model="page" type="abbreviated"></custom-datatable-pager>
@@ -57,7 +54,7 @@
             }
         },
         created: function () {
-            this.showPings()
+            // this.showPings()
         }
     }
 

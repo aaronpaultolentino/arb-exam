@@ -51,6 +51,15 @@ VuejsDatatableFactory
 Vue.use( VuejsDatatableFactory );
 
 Vue.component('datatable-component', require('./components/DatatableComponent.vue').default);
+Vue.component('users-datatable-component', require('./components/UsersDatatableComponent.vue').default);
+Vue.component('roles-datatable-component', require('./components/RolesDatatableComponent.vue').default);
+Vue.component('expenses-datatable-component', require('./components/ExpensesDatatableComponent.vue').default);
+Vue.component('expense-categories-datatable-component', require('./components/ExpenseCategoriesDatatableComponent.vue').default);
+Vue.component('user-modal-component', require('./components/UserModalComponent.vue').default);
+Vue.component('role-modal-component', require('./components/RoleModalComponent.vue').default);
+Vue.component('expense-modal-component', require('./components/ExpenseModalComponent.vue').default);
+Vue.component('expense-category-modal-component', require('./components/ExpenseCategoryModalComponent.vue').default);
+Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
