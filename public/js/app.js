@@ -2368,19 +2368,31 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$props.action == 'create') {
         axios.post('expense_categories', this.$props.expenseCategoryData).then(function (res) {
           console.log(res);
+          snackAlert('You\'ve successfully added an expense category');
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       } else if (this.$props.action == 'update') {
         axios.put('expense_categories/' + this.$props.expenseCategoryData.id, this.$props.expenseCategoryData).then(function (res) {
-          console.log(res);
+          snackAlert('You\'ve successfully update an expense category');
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       }
     },
     deleteFn: function deleteFn() {
       axios["delete"]('expense_categories/' + this.$props.expenseCategoryData.id, this.$props.expenseCategoryData).then(function (res) {
         console.log(res);
         this.$emit('closeAndRefreshTable');
+        snackAlert('You\'ve successfully deleted an expense category');
       }.bind(this));
     }
   }
@@ -2576,20 +2588,31 @@ __webpack_require__.r(__webpack_exports__);
     save: function save() {
       if (this.$props.action == 'create') {
         axios.post('expenses', this.$props.expenseData).then(function (res) {
-          console.log(res);
+          snackAlert('You\'ve successfully added an expense');
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       } else if (this.$props.action == 'update') {
         axios.put('expenses/' + this.$props.expenseData.id, this.$props.expenseData).then(function (res) {
-          console.log(res);
+          snackAlert('You\'ve successfully updated an expense');
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       }
     },
     deleteFn: function deleteFn() {
       axios["delete"]('expenses/' + this.$props.expenseData.id, this.$props.expenseData).then(function (res) {
         console.log(res);
         this.$emit('closeAndRefreshTable');
+        snackAlert('You\'ve successfully deleted an expense');
       }.bind(this));
     }
   }
@@ -2962,20 +2985,32 @@ __webpack_require__.r(__webpack_exports__);
     save: function save() {
       if (this.$props.action == 'create') {
         axios.post('roles', this.$props.roleData).then(function (res) {
-          console.log(res);
+          snackAlert('You\'ve successfully added a role');
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       } else if (this.$props.action == 'update') {
         axios.put('roles/' + this.$props.roleData.id, this.$props.roleData).then(function (res) {
           console.log(res);
+          snackAlert('You\'ve successfully updated a role');
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       }
     },
     deleteFn: function deleteFn() {
       axios["delete"]('roles/' + this.$props.roleData.id, this.$props.roleData).then(function (res) {
         console.log(res);
         this.$emit('closeAndRefreshTable');
+        snackAlert('You\'ve successfully deleted a role');
       }.bind(this));
     }
   }
@@ -3278,19 +3313,32 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$props.action == 'create') {
         axios.post('users', this.$props.userData).then(function (res) {
           console.log(res);
+          snackAlert('You\'ve successfully added a user');
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       } else if (this.$props.action == 'update') {
         axios.put('users/' + this.$props.userData.id, this.$props.userData).then(function (res) {
+          snackAlert('You\'ve successfully updated a user');
           console.log(res);
           this.$emit('closeAndRefreshTable');
-        }.bind(this));
+        }.bind(this))["catch"](function (err) {
+          if (err.response.status == 422) {
+            var data = err.response.data.errors;
+            snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+          }
+        });
       }
     },
     deleteFn: function deleteFn() {
       axios["delete"]('users/' + this.$props.userData.id, this.$props.userData).then(function (res) {
         console.log(res);
         this.$emit('closeAndRefreshTable');
+        snackAlert('You\'ve successfully deleted a user');
       }.bind(this));
     }
   }
@@ -80055,9 +80103,14 @@ var render = function() {
                         "label",
                         {
                           staticClass: "col-md-4 col-form-label text-md-right",
-                          attrs: { for: "email" }
+                          attrs: { for: "name" }
                         },
-                        [_vm._v("Name")]
+                        [
+                          _vm._v("Name "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-6" }, [
@@ -80072,11 +80125,11 @@ var render = function() {
                           ],
                           staticClass: "form-control ",
                           attrs: {
-                            id: "email",
-                            type: "email",
-                            name: "email",
+                            id: "name",
+                            type: "text",
+                            name: "name",
                             required: "required",
-                            autocomplete: "email",
+                            autocomplete: "name",
                             autofocus: "autofocus"
                           },
                           domProps: { value: _vm.roleData.name },
@@ -80101,9 +80154,14 @@ var render = function() {
                         "label",
                         {
                           staticClass: "col-md-4 col-form-label text-md-right",
-                          attrs: { for: "email" }
+                          attrs: { for: "description" }
                         },
-                        [_vm._v("Description")]
+                        [
+                          _vm._v("Description "),
+                          _c("span", { staticClass: "text-danger" }, [
+                            _vm._v("*")
+                          ])
+                        ]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-6" }, [
@@ -80119,6 +80177,7 @@ var render = function() {
                           staticClass: "form-control ",
                           attrs: {
                             required: "required",
+                            name: "description",
                             autofocus: "autofocus"
                           },
                           domProps: { value: _vm.roleData.description },

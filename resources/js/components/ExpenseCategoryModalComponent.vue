@@ -176,13 +176,26 @@
         if(this.$props.action == 'create'){
           axios.post('expense_categories', this.$props.expenseCategoryData).then(function (res) {
             console.log(res)
+            snackAlert('You\'ve successfully added an expense category');
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this))
+          .catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }else if(this.$props.action == 'update'){
           axios.put('expense_categories/'+this.$props.expenseCategoryData.id, this.$props.expenseCategoryData).then(function (res) {
-            console.log(res)
+            snackAlert('You\'ve successfully update an expense category');
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this))
+          .catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }
       },
 
@@ -190,6 +203,7 @@
         axios.delete('expense_categories/'+this.$props.expenseCategoryData.id, this.$props.expenseCategoryData).then(function (res) {
             console.log(res)
             this.$emit('closeAndRefreshTable');
+            snackAlert('You\'ve successfully deleted an expense category');
           }.bind(this));
       }
     },

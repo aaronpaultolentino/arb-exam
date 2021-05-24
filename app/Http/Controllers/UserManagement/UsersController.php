@@ -41,6 +41,11 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
+            'role_id' => 'required',
+        ]);
 
         $user->fill($request->toArray());
         $user->save();
@@ -52,6 +57,12 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'role_id' => 'required',
+        ]);
+
         $data = $request->toArray();
         $data['password'] = bcrypt('password');
 

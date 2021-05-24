@@ -184,14 +184,26 @@
       save(){
         if(this.$props.action == 'create'){
           axios.post('expenses', this.$props.expenseData).then(function (res) {
-            console.log(res)
+            snackAlert('You\'ve successfully added an expense');
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this))
+          .catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }else if(this.$props.action == 'update'){
           axios.put('expenses/'+this.$props.expenseData.id, this.$props.expenseData).then(function (res) {
-            console.log(res)
+            snackAlert('You\'ve successfully updated an expense');
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this))
+          .catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }
       },
 
@@ -199,6 +211,7 @@
         axios.delete('expenses/'+this.$props.expenseData.id, this.$props.expenseData).then(function (res) {
             console.log(res)
             this.$emit('closeAndRefreshTable');
+            snackAlert('You\'ve successfully deleted an expense');
           }.bind(this));
       }
     },

@@ -30,16 +30,16 @@
           <slot name="body">
             <div id="forCreateAndUpdate" v-show="action != 'delete'">
                 <div class="form-group row">
-                  <label for="email" class="col-md-4 col-form-label text-md-right">Name</label> 
+                  <label for="name" class="col-md-4 col-form-label text-md-right">Name <span class="text-danger">*</span></label> 
                   <div class="col-md-6">
-                    <input id="email" type="email" v-model="roleData.name" name="email" required="required" autocomplete="email" autofocus="autofocus" class="form-control ">
+                    <input id="name" type="text" v-model="roleData.name" name="name" required="required" autocomplete="name" autofocus="autofocus" class="form-control ">
                   </div>
                 </div> 
 
                 <div class="form-group row">
-                  <label for="email" class="col-md-4 col-form-label text-md-right">Description</label> 
+                  <label for="description" class="col-md-4 col-form-label text-md-right">Description <span class="text-danger">*</span></label> 
                   <div class="col-md-6">
-                    <textarea v-model="roleData.description" required="required"autofocus="autofocus" class="form-control "></textarea>
+                    <textarea v-model="roleData.description" required="required" name="description" autofocus="autofocus" class="form-control "></textarea>
                   </div>
                 </div> 
             </div>
@@ -176,14 +176,26 @@
       save(){
         if(this.$props.action == 'create'){
           axios.post('roles', this.$props.roleData).then(function (res) {
-            console.log(res)
+            snackAlert('You\'ve successfully added a role');
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this))
+          .catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }else if(this.$props.action == 'update'){
           axios.put('roles/'+this.$props.roleData.id, this.$props.roleData).then(function (res) {
             console.log(res)
+            snackAlert('You\'ve successfully updated a role');
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this)).catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }
       },
 
@@ -191,6 +203,7 @@
         axios.delete('roles/'+this.$props.roleData.id, this.$props.roleData).then(function (res) {
             console.log(res)
             this.$emit('closeAndRefreshTable');
+            snackAlert('You\'ve successfully deleted a role');
           }.bind(this));
       }
     },

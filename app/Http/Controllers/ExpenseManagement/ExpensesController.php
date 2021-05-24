@@ -46,6 +46,12 @@ class ExpensesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'expense_category_id' => 'required',
+            'amount' => 'required|numeric',
+            'entry_date' => 'required',
+        ]);
+
         $user = Expense::findOrFail($id);
         $data = $request->toArray();
         $data['created_by'] = auth()->user()->id;
@@ -59,6 +65,12 @@ class ExpensesController extends Controller
      */
     public function create(Request $request)
     {
+        $request->validate([
+            'expense_category_id' => 'required',
+            'amount' => 'required|numeric',
+            'entry_date' => 'required',
+        ]);
+        
         $data = $request->toArray();
         $data['created_by'] = auth()->user()->id;
 

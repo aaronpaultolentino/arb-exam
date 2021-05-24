@@ -186,13 +186,27 @@
         if(this.$props.action == 'create'){
           axios.post('users', this.$props.userData).then(function (res) {
             console.log(res)
+            snackAlert('You\'ve successfully added a user');
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this))
+          .catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }else if(this.$props.action == 'update'){
           axios.put('users/'+this.$props.userData.id, this.$props.userData).then(function (res) {
+            snackAlert('You\'ve successfully updated a user');
             console.log(res)
             this.$emit('closeAndRefreshTable');
-          }.bind(this));
+          }.bind(this))
+          .catch(err => {
+            if(err.response.status == 422){
+              let data = err.response.data.errors;
+              snackAlert(data[Object.keys(data)[0]], 'danger', 'Error');
+            }
+          });
         }
       },
 
@@ -200,6 +214,7 @@
         axios.delete('users/'+this.$props.userData.id, this.$props.userData).then(function (res) {
             console.log(res)
             this.$emit('closeAndRefreshTable');
+            snackAlert('You\'ve successfully deleted a user');
           }.bind(this));
       }
     },

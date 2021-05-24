@@ -37,6 +37,11 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|unique:roles,name,'.$id,
+            'description' => 'required',
+        ]);
+
         $user = Role::findOrFail($id);
 
         $user->fill($request->toArray());
@@ -49,6 +54,11 @@ class RolesController extends Controller
      */
     public function create(Request $request)
     {
+        $request->validate([
+            'name' => 'required|unique:roles',
+            'description' => 'required',
+        ]);
+
         $data = $request->toArray();
 
         $user = new Role($data);

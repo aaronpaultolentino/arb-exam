@@ -37,6 +37,11 @@ class ExpenseCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|unique:expense_categories,name,'.$id,
+            'description' => 'required',
+        ]);
+
         $user = ExpenseCategory::findOrFail($id);
         $data = $request->toArray();
         $data['created_by'] = auth()->user()->id;
@@ -50,6 +55,11 @@ class ExpenseCategoriesController extends Controller
      */
     public function create(Request $request)
     {
+        $request->validate([
+            'name' => 'required|unique:expense_categories',
+            'description' => 'required',
+        ]);
+
         $data = $request->toArray();
         $data['created_by'] = auth()->user()->id;
 
