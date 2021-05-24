@@ -14,3 +14,6 @@
 #### Normal User
 * username: user@arb.com 
 * password: 123123123 
+
+### Default password when creating user
+* password
